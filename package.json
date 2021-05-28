@@ -1,5 +1,5 @@
 {
-  "name": "cgl-op-lambda-authorizer-new",
+  "name": "cgl-op-lambda-authorizer-service",
   "version": "0.0.0",
   "description": "",
   "main": "dist/server.js",
