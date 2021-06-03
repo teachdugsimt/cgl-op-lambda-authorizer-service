@@ -1,12 +1,12 @@
-import connection from "./connection";
+import connection from "./connection/connection";
 
-const handler = async (event: any, context: any, callback: any): Promise<any> => {
+export const handler = async (event: any, context: any, callback: any): Promise<any> => {
   // TODO implement
   const userId = event.request?.userAttributes['custom:userId']
   // if (userId) {
   const db = await connection();
 
-  const repository = db?.viewUserRole;
+  const repository = db?.vwUserRole;
   const userRole = await repository.find({
     where: { user_id: userId },
     select: ['role_name']

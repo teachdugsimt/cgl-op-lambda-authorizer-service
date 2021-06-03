@@ -1,21 +1,37 @@
-import {
-  Entity,
-  Column,
-  PrimaryColumn
-} from 'typeorm';
+import { ViewEntity, ViewColumn } from "typeorm";
 
-@Entity({ name: 'vw_user_role' })
-export class ViewUserRole {
-  @PrimaryColumn()
+@ViewEntity({
+  expression: `
+  SELECT ur.id,
+    ur.user_id,
+    ur.role_id,
+    re.id AS resource_id,
+    ra.action,
+    ra.url
+  FROM user_role ur
+    LEFT JOIN role ro ON ro.id = ur.role_id
+    LEFT JOIN resource_action ra ON ra.role_id = ur.role_id
+    LEFT JOIN resource re ON re.id = ra.resource_id;
+  `
+})
+export class VwUserRoleResource {
+
+  @ViewColumn()
   id: number
 
-  @Column({ name: 'user_id' })
-  userId: number
+  @ViewColumn()
+  user_id: number
 
-  @Column({ name: 'role_id' })
-  roleId: number
+  @ViewColumn()
+  role_id: number
 
-  @Column({ name: 'role_name' })
-  roleName: string
+  @ViewColumn()
+  resource_id: number
+
+  @ViewColumn()
+  action: string
+
+  @ViewColumn()
+  url: number
 
 }

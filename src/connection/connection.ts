@@ -1,27 +1,26 @@
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
-import { Role, Resource, ResourceAction, ViewResourceAction, ViewUserRole, UserExample } from './models';
+import { Connection } from 'typeorm';
+import { Role, Resource, ResourceAction, UserRole, Users, VwUserRole, VwUserRoleResource } from '../models';
 import * as fs from 'fs';
-import connectionString from './ormconfig'
-// const fs = require('fs').promises;
+import { Database } from "./database";
 
 interface ConnectionResponse {
   role: any
   resource: any
   resourceAction: any
-  viewResourceAction: any
-  viewUserRole: any
-  userExample: any
+  userRole: any
+  users: any
+  vwUserRole: any
+  vwUserRoleResource: any
+  // mainConnection: Connection
 }
 
 const connection = async (): Promise<ConnectionResponse | undefined> => {
   try {
-    const connection = await createConnection(connectionString);
+    const database = new Database();
+    const connection: Connection = await database.getConnection()
     console.log('database connected');
     const directory = 'src/migration';
-    // fs.rmdir(directory, { recursive: true })
-    //   .then(() => console.log('directory removed!'))
-    //   .catch((err: any) => { if (err) throw (err) });
     fs.rmdir(directory, (err) => {
       if (err) { console.log('err :>> ', err); }
     })
@@ -30,9 +29,11 @@ const connection = async (): Promise<ConnectionResponse | undefined> => {
       role: connection.getRepository(Role),
       resource: connection.getRepository(Resource),
       resourceAction: connection.getRepository(ResourceAction),
-      viewResourceAction: connection.getRepository(ViewResourceAction),
-      viewUserRole: connection.getRepository(ViewUserRole),
-      userExample: connection.getRepository(UserExample)
+      userRole: connection.getRepository(UserRole),
+      users: connection.getRepository(Users),
+      vwUserRole: connection.getRepository(VwUserRole),
+      vwUserRoleResource: connection.getRepository(VwUserRoleResource),
+      // mainConnection: connection,
     }
   } catch (error) {
     console.log(error);
