@@ -88,7 +88,7 @@ const convertHttpMethodToAction = (httpMethod: string) => {
       action = 'read';
       break;
   }
-  return action
+  return action;
 }
 
 export const handler = async (event: any, context: any, callback: any): Promise<any> => {
