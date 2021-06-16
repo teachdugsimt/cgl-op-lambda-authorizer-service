@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import jwkToPem from "jwk-to-pem";
-import connection from "./connection/connection";
+// import connection from "./plugins/connection";
 import axios from "axios";
-import { Like } from "typeorm";
+// import { Like } from "typeorm";
 
 interface StatementOne {
   Action?: string
@@ -93,47 +93,49 @@ const convertHttpMethodToAction = (httpMethod: string) => {
 
 export const handler = async (event: any, context: any, callback: any): Promise<any> => {
   try {
-    const token = event.headers.Authorization;
-    const resourcePath = event.path;
-    const httpMethod = event.requestContext.httpMethod;
+    console.log('event :>> ', event);
+    return generatePolicy('user', 'Allow', event.methodArn);
+    // const token = event.headers.Authorization;
+    // const resourcePath = event.path;
+    // const httpMethod = event.requestContext.httpMethod;
 
-    const jwk = await getCognitoKeys(process.env.USER_POOL_ID || 'ap-southeast-1_yuSKTYKwM');
-    const payload = validateToken(token, jwk.keys[0])
+    // const jwk = await getCognitoKeys(process.env.USER_POOL_ID || 'ap-southeast-1_yuSKTYKwM');
+    // const payload = validateToken(token, jwk.keys[0])
 
-    if (!payload) {
-      return callback('Unauthorized');
-    }
+    // if (!payload) {
+    //   return callback('Unauthorized');
+    // }
 
-    const action: string = convertHttpMethodToAction(httpMethod);
-    const userId: number | undefined = payload?.userId;
+    // const action: string = convertHttpMethodToAction(httpMethod);
+    // const userId: number | undefined = payload?.userId;
 
-    if (!userId) {
-      return callback('Unauthorized');
-    }
+    // if (!userId) {
+    //   return callback('Unauthorized');
+    // }
 
-    const db = await connection();
+    // const db = await connection();
 
-    const repository = db?.vwUserRoleResource;
-    const roles = await repository.find({
-      where: {
-        user_id: userId,
-        url: resourcePath,
-        action: Like(`${action}%`)
-      },
-      select: ['action'],
-      order: {
-        action: 'ASC',
-        id: 'ASC'
-      }
-    });
-    console.log('JSON.stringify(allRoles) :>> ', JSON.stringify(roles));
+    // const repository = db?.vwUserRoleResource;
+    // const roles = await repository.find({
+    //   where: {
+    //     user_id: userId,
+    //     url: resourcePath,
+    //     action: Like(`${action}%`)
+    //   },
+    //   select: ['action'],
+    //   order: {
+    //     action: 'ASC',
+    //     id: 'ASC'
+    //   }
+    // });
+    // console.log('JSON.stringify(allRoles) :>> ', JSON.stringify(roles));
 
-    if (!roles || !roles.length) {
-      return callback('Unauthorized');
-    }
+    // if (!roles || !roles.length) {
+    //   return callback('Unauthorized');
+    // }
 
-    const responseAction = roles[0].action
-    return generatePolicy('user', 'Allow', event.methodArn, { action: responseAction });
+    // const responseAction = roles[0].action
+    // return generatePolicy('user', 'Allow', event.methodArn, { action: responseAction });
   } catch (err) {
     console.log('err :>> ', err);
     return callback('Unauthorized');

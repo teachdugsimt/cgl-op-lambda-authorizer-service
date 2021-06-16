@@ -13,12 +13,12 @@ import { ViewEntity, ViewColumn } from "typeorm";
 export class VwUserRole {
 
   @ViewColumn()
-  id!: number
+  id: number
 
   @ViewColumn()
-  user_id!: number
+  user_id: number
 
   @ViewColumn()
-  role_id!: number
+  role_id: number
 
 }

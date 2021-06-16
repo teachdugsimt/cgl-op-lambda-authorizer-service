@@ -1,51 +1,60 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
+@Index("role_pkey", ["id"], { unique: true })
 @Entity("role", { schema: "public" })
 export class Role {
   @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
-  id!: string;
+  id: string;
 
   @Column("character varying", {
     name: "fullname",
     nullable: true,
     length: 255,
+    default: () => "NULL::character varying",
   })
-  fullname!: string | null;
+  fullname: string | null;
 
-  @Column("character varying", { name: "name", nullable: true, length: 255 })
-  name!: string | null;
+  @Column("character varying", {
+    name: "name",
+    nullable: true,
+    length: 255,
+    default: () => "NULL::character varying",
+  })
+  name: string | null;
 
   @Column("integer", { name: "version", default: () => "0" })
-  version!: number;
+  version: number;
 
   @Column("timestamp without time zone", {
     name: "created_at",
     nullable: true,
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt!: Date | null;
+  createdAt: Date | null;
 
   @Column("timestamp without time zone", {
     name: "updated_at",
     nullable: true,
     default: () => "CURRENT_TIMESTAMP",
   })
-  updatedAt!: Date | null;
+  updatedAt: Date | null;
 
   @Column("character varying", {
-    name: "created_by",
+    name: "created_user",
     nullable: true,
-    length: 120,
+    length: 254,
+    default: () => "NULL::character varying",
   })
-  createdBy!: string | null;
+  createdUser: string | null;
 
   @Column("character varying", {
-    name: "updated_by",
+    name: "updated_user",
     nullable: true,
-    length: 120,
+    length: 254,
+    default: () => "NULL::character varying",
   })
-  updatedBy!: string | null;
+  updatedUser: string | null;
 
   @Column("boolean", { name: "is_deleted", default: () => "false" })
-  isDeleted!: boolean;
+  isDeleted: boolean;
 }
