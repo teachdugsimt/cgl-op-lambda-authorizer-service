@@ -1,19 +1,23 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("role", { schema: "public" })
-export class Role {
+@Index("term_of_service_pkey", ["id"], { unique: true })
+@Entity("term_of_service", { schema: "public" })
+export class TermOfService {
   @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
   id!: string;
 
   @Column("character varying", {
-    name: "fullname",
+    name: "version_number",
     nullable: true,
-    length: 255,
+    length: 50,
   })
-  fullname!: string | null;
+  versionNumber!: string | null;
 
-  @Column("character varying", { name: "name", nullable: true, length: 255 })
-  name!: string | null;
+  @Column("text", { name: "data", nullable: true })
+  data!: string | null;
+
+  @Column("boolean", { name: "is_active", default: () => "true" })
+  isActive!: boolean;
 
   @Column("integer", { name: "version", default: () => "0" })
   version!: number;
@@ -33,18 +37,20 @@ export class Role {
   updatedAt!: Date | null;
 
   @Column("character varying", {
-    name: "created_by",
+    name: "created_user",
     nullable: true,
-    length: 120,
+    length: 254,
+    default: () => "NULL::character varying",
   })
-  createdBy!: string | null;
+  createdUser!: string | null;
 
   @Column("character varying", {
-    name: "updated_by",
+    name: "updated_user",
     nullable: true,
-    length: 120,
+    length: 254,
+    default: () => "NULL::character varying",
   })
-  updatedBy!: string | null;
+  updatedUser!: string | null;
 
   @Column("boolean", { name: "is_deleted", default: () => "false" })
   isDeleted!: boolean;

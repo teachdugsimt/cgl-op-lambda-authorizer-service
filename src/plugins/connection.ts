@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Connection } from 'typeorm';
-import { Role, Resource, ResourceAction, UserRole, Users, VwUserRole, VwUserRoleResource } from '../models';
+import { Role, Resource, ResourceAction, UserRole, UserProfile, VwUserRole, VwUserRoleResource } from '../models';
 import * as fs from 'fs';
 import { Database } from "./database";
 
@@ -9,10 +9,9 @@ interface ConnectionResponse {
   resource: any
   resourceAction: any
   userRole: any
-  users: any
+  userProfile: any
   vwUserRole: any
   vwUserRoleResource: any
-  // mainConnection: Connection
 }
 
 const connection = async (): Promise<ConnectionResponse | undefined> => {
@@ -30,10 +29,9 @@ const connection = async (): Promise<ConnectionResponse | undefined> => {
       resource: connection.getRepository(Resource),
       resourceAction: connection.getRepository(ResourceAction),
       userRole: connection.getRepository(UserRole),
-      users: connection.getRepository(Users),
       vwUserRole: connection.getRepository(VwUserRole),
       vwUserRoleResource: connection.getRepository(VwUserRoleResource),
-      // mainConnection: connection,
+      userProfile: connection.getRepository(UserProfile),
     }
   } catch (error) {
     console.log(error);

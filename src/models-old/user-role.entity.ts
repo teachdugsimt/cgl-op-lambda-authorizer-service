@@ -4,11 +4,11 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 @Entity("user_role", { schema: "public" })
 export class UserRole {
   @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
-  id!: string;
+  id: string;
 
   @Column("integer", { name: "user_id", nullable: true })
-  userId!: number | null;
+  userId: number | null;
 
   @Column("integer", { name: "role_id", nullable: true })
-  roleId!: number | null;
+  roleId: number | null;
 }
