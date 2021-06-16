@@ -1,7 +1,4 @@
 import { AfterLoad, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import Util from '../services/util.service'
-
-const util = new Util();
 
 @Entity("user_profile", { schema: "public" })
 export class UserProfile {
@@ -76,11 +73,4 @@ export class UserProfile {
     length: 120,
   })
   updatedBy!: string | null;
-
-  userId!: string;
-
-  @AfterLoad()
-  getUserId() {
-    this.userId = util.encodeUserId(+this.id);
-  }
 }
