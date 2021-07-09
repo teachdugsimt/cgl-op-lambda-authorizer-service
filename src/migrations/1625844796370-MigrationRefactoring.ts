@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class MigrationRefactoring1622728675447 implements MigrationInterface {
-    name = 'MigrationRefactoring1622728675447'
+export class MigrationRefactoring1625844796370 implements MigrationInterface {
+    name = 'MigrationRefactoring1625844796370'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE VIEW "vw_user_role" AS 

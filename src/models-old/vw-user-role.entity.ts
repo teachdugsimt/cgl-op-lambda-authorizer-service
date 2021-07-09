@@ -1,7 +1,7 @@
 import { ViewEntity, ViewColumn } from "typeorm";
 
 @ViewEntity({
-  expression!: `
+  expression: `
   SELECT ur.id,
     ur.user_id,
     ur.role_id,
@@ -17,21 +17,21 @@ import { ViewEntity, ViewColumn } from "typeorm";
 export class VwUserRoleResource {
 
   @ViewColumn()
-  id!: number
+  id: number
 
   @ViewColumn()
-  user_id!: number
+  user_id: number
 
   @ViewColumn()
-  role_id!: number
+  role_id: number
 
   @ViewColumn()
-  resource_id!: number
+  resource_id: number
 
   @ViewColumn()
-  action!: string
+  action: string
 
   @ViewColumn()
-  url!: number
+  url: number
 
 }
